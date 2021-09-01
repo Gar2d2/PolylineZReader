@@ -17,6 +17,8 @@
 #endif
 
 
+
+
 // CShapeReaderApp
 
 BEGIN_MESSAGE_MAP(CShapeReaderApp, CWinApp)

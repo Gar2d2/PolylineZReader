@@ -5,6 +5,7 @@
 #include "ShapeReaderDoc.h"
 
 
+
 PolylineZDrawer::PolylineZDrawer(PolylineZ* shapeToDraw, CShapeReaderDoc* doc)
 {
 	this->doc = doc;
@@ -16,16 +17,40 @@ void PolylineZDrawer::DrawShape(CDC* pDC, CPoint offset, int zoom)
 {
 	if (!pDC) { return; }
 
+	CPen drawPen(PS_SOLID, 0.4*zoom, RGB(0, 0, 255));
+	CPen elipsePen(PS_SOLID, 0.5*zoom, RGB(255, 165, 0));
+	
+	pDC->SelectObject(&drawPen);
 	for (auto vertex : shapeToDraw->shapeVertices)
 	{
 		pDC->MoveTo(round(vertex[0].X * zoom + offset.x), round(vertex[0].Y * -zoom + offset.y));
+	
 		int count = vertex.size();
 		if (count > 1)
 		{
 			for (int i = 1; i < count; i++)
 			{
+
+				pDC->SelectObject(&drawPen);
 				pDC->LineTo(round(vertex[i].X * zoom + offset.x), round(vertex[i].Y * -zoom + offset.y));
+
+				
+				pDC->SelectObject(&elipsePen);
+				pDC->Ellipse(
+					round(vertex[i-1].X * zoom + offset.x + zoom/4),
+					round(vertex[i-1].Y * -zoom + offset.y + zoom/4), 
+					round(vertex[i-1].X * zoom + offset.x - zoom/4), 
+					round(vertex[i-1].Y * -zoom + offset.y - zoom/4));
+			
 			}
+
+			pDC->SelectObject(&elipsePen);
+			
+			pDC->Ellipse(
+				round(vertex[count - 1].X * zoom + offset.x + zoom / 4),
+				round(vertex[count - 1].Y * -zoom + offset.y + zoom / 4),
+				round(vertex[count - 1].X * zoom + offset.x - zoom / 4),
+				round(vertex[count - 1].Y * -zoom + offset.y - zoom / 4));
 		}
 	}
 }
