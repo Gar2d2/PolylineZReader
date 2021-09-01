@@ -13,6 +13,8 @@
 #include "shapefil.h"
 #include "PolylineZ.h"
 #include "ShapeDrawer.h"
+#include "CErrorDlg.h"
+#include "CShapeErrorDlg.h"
 #include "PolylineZDrawer.h"
 #include "ShapeReaderDoc.h"
 #include <propkey.h>
@@ -26,6 +28,7 @@
 IMPLEMENT_DYNCREATE(CShapeReaderDoc, CDocument)
 
 BEGIN_MESSAGE_MAP(CShapeReaderDoc, CDocument)
+	ON_COMMAND(IDD_ERRORFILETYPE, &CShapeReaderDoc::OnErrorReadingFile)
 END_MESSAGE_MAP()
 
 
@@ -67,10 +70,25 @@ void CShapeReaderDoc::Serialize(CArchive& ar)
 	{
 		TRACE(ar.GetFile()->GetFilePath());
 		CStringA s(ar.GetFile()->GetFilePath());
-		const char* t = s;
-		//SHPHandle handle = SHPOpen("D:\\VsStudioProjects\\line.shp","");
-		//SHPObject* Object = SHPReadObject(handle, 0);
-		shapeDrawer = new PolylineZDrawer(new PolylineZ(SHPOpen(t, "xD")), this);
+		const char* filepath = s;
+		SHPHandle handle = SHPOpen(filepath, "");
+		if (!handle)
+		{
+			OnErrorReadingFile();
+			return;
+		}
+		switch (handle->nShapeType)
+		{
+		case 3: //polylineZ and polyline 
+		case 13:
+			shapeDrawer = new PolylineZDrawer(new PolylineZ(handle), this);
+			break;
+
+		default:
+			OnErrorShapeType();
+			break;
+		};
+		
 	}
 }
 
@@ -142,5 +160,16 @@ void CShapeReaderDoc::Dump(CDumpContext& dc) const
 }
 #endif //_DEBUG
 
+void CShapeReaderDoc::OnErrorReadingFile()
+{
+	CErrorDlg dlg;
+	dlg.DoModal();
+}
+
+void CShapeReaderDoc::OnErrorShapeType()
+{
+	CShapeErrorDlg dlg;
+	dlg.DoModal();
+}
 
 // CShapeReaderDoc commands

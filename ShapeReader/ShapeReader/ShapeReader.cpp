@@ -50,8 +50,8 @@ CShapeReaderApp theApp;
 BOOL CShapeReaderApp::InitInstance()
 {
 	CWinApp::InitInstance();
-
-
+	
+	
 	EnableTaskbarInteraction(FALSE);
 
 	// AfxInitRichEdit2() is required to use RichEdit control
@@ -95,6 +95,9 @@ BOOL CShapeReaderApp::InitInstance()
 	// The one and only window has been initialized, so show and update it
 	m_pMainWnd->ShowWindow(SW_SHOW);
 	m_pMainWnd->UpdateWindow();
+
+	// Show app about containing info about controls
+	OnAppAbout();
 	return TRUE;
 }
 
