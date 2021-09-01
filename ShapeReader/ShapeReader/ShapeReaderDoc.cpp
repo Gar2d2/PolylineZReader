@@ -11,7 +11,7 @@
 #endif
 
 #include "shapefil.h"
-#include "PolylineZ.h";
+#include "PolylineZ.h"
 #include "ShapeDrawer.h"
 #include "PolylineZDrawer.h"
 #include "ShapeReaderDoc.h"
