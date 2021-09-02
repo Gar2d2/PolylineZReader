@@ -19,7 +19,7 @@ void PolylineZDrawer::DrawShape(CDC* pDC, CPoint offset, int zoom)
 	CRect client;
 	
 	
-	CPen drawPen(PS_SOLID, 0.4*zoom/2, RGB(0, 0, 255));
+	CPen drawPen(PS_SOLID, 0.4*zoom/2, RGB(0, 0, 255)); //TODO create dialog box for parametrizing thickness and color 
 	CPen elipsePen(PS_SOLID, 0.5*zoom, RGB(255, 165, 0));
 	
 	pDC->SelectObject(&drawPen);

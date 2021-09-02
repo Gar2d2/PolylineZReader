@@ -60,6 +60,7 @@ public:
 	afx_msg void OnLButtonUp(UINT nFlags, CPoint point);
 	afx_msg BOOL OnEraseBkgnd(CDC* pDC);
 	afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
+	afx_msg void OnResetButtonClicked();
 	virtual void CreateButtons();
 	void RepositionButton();
 	CButton resetView;

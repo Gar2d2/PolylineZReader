@@ -32,6 +32,7 @@ BEGIN_MESSAGE_MAP(CShapeReaderView, CView)
 	ON_WM_LBUTTONUP()
 	ON_WM_ERASEBKGND()
 	ON_WM_CREATE()
+	ON_BN_CLICKED(ID_BUTTON_RESET, &CShapeReaderView::OnResetButtonClicked)
 END_MESSAGE_MAP()
 
 // CShapeReaderView construction/destruction
@@ -198,3 +199,11 @@ void CShapeReaderView::RepositionButton()
 	resetView.MoveWindow((clientRect.right - buttonRect.Width())/2 , clientRect.bottom - buttonRect.Height(), 80, 20);
 }
 
+void CShapeReaderView::OnResetButtonClicked()
+{
+	viewOffset = (0, 0);
+	zoomLevel = 10;
+
+	Invalidate();
+	UpdateWindow();
+}
