@@ -31,6 +31,7 @@ BEGIN_MESSAGE_MAP(CShapeReaderView, CView)
 	ON_WM_MOUSEWHEEL()
 	ON_WM_LBUTTONUP()
 	ON_WM_ERASEBKGND()
+	ON_WM_CREATE()
 END_MESSAGE_MAP()
 
 // CShapeReaderView construction/destruction
@@ -54,6 +55,16 @@ BOOL CShapeReaderView::PreCreateWindow(CREATESTRUCT& cs)
 	return CView::PreCreateWindow(cs);
 }
 
+
+int CShapeReaderView::OnCreate(LPCREATESTRUCT lpCreateStruct)
+{
+	if (CView::OnCreate(lpCreateStruct) == -1)
+		return -1;
+
+	CreateButtons();
+
+	return 0;
+}
 // CShapeReaderView drawing
 
 void CShapeReaderView::OnDraw(CDC* pDC)
@@ -62,7 +73,7 @@ void CShapeReaderView::OnDraw(CDC* pDC)
 	ASSERT_VALID(pDoc);
 	if (!pDoc)
 		return;
-	
+	RepositionButton();
 	MemDC dc(pDC);
 	
 	if (pDoc->shapeDrawer)
@@ -169,15 +180,21 @@ BOOL CShapeReaderView::OnEraseBkgnd(CDC* pDC)
 	return FALSE;
 }
 
-void CShapeReaderView::OnInitialUpdate()
+void CShapeReaderView::CreateButtons()
 {
-	 
-	//	resetView.Create(_T("Rearrange"), BS_PUSHBUTTON, CRect(200, 200, 200, 200), this, MYBUTTONID);
-	//	resetView.ShowWindow(SW_SHOW);
-	////RepositionButton();
+	resetView.Create(_T("Reset View"), BS_PUSHBUTTON | WS_VISIBLE, CRect(300, 100, 400, 150), this, ID_BUTTON_RESET);
+	//resetView.ShowWindow(SW_SHOW);
+		
+	
 }
 
 void CShapeReaderView::RepositionButton()
 {
-	//resetView.MoveWindow(x, y, width, height);
+	CWnd* t = this;
+	CRect clientRect;
+	CRect buttonRect;
+	resetView.GetWindowRect(buttonRect);
+	t->GetClientRect(clientRect);
+	resetView.MoveWindow((clientRect.right - buttonRect.Width())/2 , clientRect.bottom - buttonRect.Height(), 80, 20);
 }
+

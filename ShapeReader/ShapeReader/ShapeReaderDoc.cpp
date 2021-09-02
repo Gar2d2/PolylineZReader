@@ -89,6 +89,7 @@ void CShapeReaderDoc::Serialize(CArchive& ar)
 			OnErrorShapeType();
 			break;
 		};
+
 		if (userWin)
 		{
 			userWin->Invalidate(); //need to be refreshed cause of double buffering;
