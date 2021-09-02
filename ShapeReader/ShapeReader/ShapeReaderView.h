@@ -3,7 +3,7 @@
 //
 
 #pragma once
-
+#define MYBUTTONID 10000
 
 class CShapeReaderView : public CView
 {
@@ -50,6 +50,7 @@ private:
 	int zoomMultiplier = 1;
 	CPoint viewOffset = (0, 0);
 	CPoint initialCursorLocation;
+	//CButton resetView;
 // methods
 private:
 	void OnPanning(CPoint point);
@@ -59,6 +60,8 @@ private:
 public:
 	afx_msg void OnLButtonUp(UINT nFlags, CPoint point);
 	afx_msg BOOL OnEraseBkgnd(CDC* pDC);
+	virtual void OnInitialUpdate();
+	void RepositionButton();
 };
 
 #ifndef _DEBUG  // debug version in ShapeReaderView.cpp

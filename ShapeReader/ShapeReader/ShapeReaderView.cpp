@@ -37,18 +37,19 @@ END_MESSAGE_MAP()
 
 CShapeReaderView::CShapeReaderView() noexcept
 {
-	// TODO: add construction code here
 
 }
 
 CShapeReaderView::~CShapeReaderView()
 {
+	
 }
 
 BOOL CShapeReaderView::PreCreateWindow(CREATESTRUCT& cs)
 {
 	// TODO: Modify the Window class or styles here by modifying
 	//  the CREATESTRUCT cs
+	
 	
 	return CView::PreCreateWindow(cs);
 }
@@ -61,6 +62,7 @@ void CShapeReaderView::OnDraw(CDC* pDC)
 	ASSERT_VALID(pDoc);
 	if (!pDoc)
 		return;
+	
 	MemDC dc(pDC);
 	
 	if (pDoc->shapeDrawer)
@@ -79,6 +81,7 @@ void CShapeReaderView::OnDraw(CDC* pDC)
 void CShapeReaderView::AssertValid() const
 {
 	CView::AssertValid();
+	
 }
 
 void CShapeReaderView::Dump(CDumpContext& dc) const
@@ -164,4 +167,17 @@ BOOL CShapeReaderView::OnEraseBkgnd(CDC* pDC)
 	
 
 	return FALSE;
+}
+
+void CShapeReaderView::OnInitialUpdate()
+{
+	 
+	//	resetView.Create(_T("Rearrange"), BS_PUSHBUTTON, CRect(200, 200, 200, 200), this, MYBUTTONID);
+	//	resetView.ShowWindow(SW_SHOW);
+	////RepositionButton();
+}
+
+void CShapeReaderView::RepositionButton()
+{
+	//resetView.MoveWindow(x, y, width, height);
 }

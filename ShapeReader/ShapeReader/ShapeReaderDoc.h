@@ -46,8 +46,11 @@ protected:
 	// Variables
 public:
 	class ShapeDrawer* shapeDrawer = nullptr;
+private:
+	CWnd* userWin = nullptr;
 	// Methods
 public:
+
 
 #ifdef SHARED_HANDLERS
 	// Helper function that sets search content for a Search Handler

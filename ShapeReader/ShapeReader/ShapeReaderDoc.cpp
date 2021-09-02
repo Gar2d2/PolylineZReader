@@ -68,6 +68,7 @@ void CShapeReaderDoc::Serialize(CArchive& ar)
 	}
 	else
 	{
+		userWin = AfxGetMainWnd();
 		TRACE(ar.GetFile()->GetFilePath());
 		CStringA s(ar.GetFile()->GetFilePath());
 		const char* filepath = s;
@@ -88,6 +89,11 @@ void CShapeReaderDoc::Serialize(CArchive& ar)
 			OnErrorShapeType();
 			break;
 		};
+		if (userWin)
+		{
+			userWin->Invalidate(); //need to be refreshed cause of double buffering;
+			userWin->UpdateWindow();
+		}
 		
 	}
 }
