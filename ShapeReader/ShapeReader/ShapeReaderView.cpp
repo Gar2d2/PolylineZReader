@@ -11,6 +11,7 @@
 #endif
 
 #include "shapefil.h"
+
 #include "ShapeDrawer.h"
 #include "ShapeReaderDoc.h"
 #include "ShapeReaderView.h"
@@ -29,6 +30,7 @@ BEGIN_MESSAGE_MAP(CShapeReaderView, CView)
 	ON_WM_MOUSEMOVE()
 	ON_WM_MOUSEWHEEL()
 	ON_WM_LBUTTONUP()
+	ON_WM_ERASEBKGND()
 END_MESSAGE_MAP()
 
 // CShapeReaderView construction/destruction
@@ -47,7 +49,7 @@ BOOL CShapeReaderView::PreCreateWindow(CREATESTRUCT& cs)
 {
 	// TODO: Modify the Window class or styles here by modifying
 	//  the CREATESTRUCT cs
-
+	
 	return CView::PreCreateWindow(cs);
 }
 
@@ -59,13 +61,17 @@ void CShapeReaderView::OnDraw(CDC* pDC)
 	ASSERT_VALID(pDoc);
 	if (!pDoc)
 		return;
-
+	
+	
+	
 	if (pDoc->shapeDrawer)
 	{
 		pDoc->shapeDrawer->DrawShape(pDC, viewOffset, zoomLevel);
 	}
 
 }
+
+
 
 
 // CShapeReaderView diagnostics
@@ -126,6 +132,9 @@ void CShapeReaderView::OnPanning(CPoint point)
 	if (isPanning)
 	{
 		viewOffset += point - initialCursorLocation;
+		CRect client;
+		GetClientRect(client);
+		
 		Invalidate();
 		UpdateWindow();
 
@@ -147,3 +156,13 @@ void CShapeReaderView::ChangeZoom(short newZoom)
 }
 
 
+
+
+BOOL CShapeReaderView::OnEraseBkgnd(CDC* pDC)
+{
+	// TODO: Add your message handler code here and/or call default
+
+	CView::OnEraseBkgnd(pDC);
+
+	return TRUE;
+}
