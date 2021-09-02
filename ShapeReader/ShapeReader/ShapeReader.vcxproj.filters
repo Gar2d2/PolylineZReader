@@ -54,6 +54,9 @@
     <ClInclude Include="CShapeErrorDlg.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="MemDC.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ShapeReader.cpp">
@@ -84,6 +87,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="CShapeErrorDlg.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MemDC.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

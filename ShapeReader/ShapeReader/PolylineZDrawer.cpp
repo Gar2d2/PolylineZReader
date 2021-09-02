@@ -16,11 +16,14 @@ PolylineZDrawer::PolylineZDrawer(PolylineZ* shapeToDraw, CShapeReaderDoc* doc)
 void PolylineZDrawer::DrawShape(CDC* pDC, CPoint offset, int zoom)
 {
 	if (!pDC) { return; }
-
-	CPen drawPen(PS_SOLID, 0.4*zoom, RGB(0, 0, 255));
+	CRect client;
+	
+	
+	CPen drawPen(PS_SOLID, 0.4*zoom/2, RGB(0, 0, 255));
 	CPen elipsePen(PS_SOLID, 0.5*zoom, RGB(255, 165, 0));
 	
 	pDC->SelectObject(&drawPen);
+
 	for (auto vertex : shapeToDraw->shapeVertices)
 	{
 		pDC->MoveTo(round(vertex[0].X * zoom + offset.x), round(vertex[0].Y * -zoom + offset.y));
@@ -37,20 +40,20 @@ void PolylineZDrawer::DrawShape(CDC* pDC, CPoint offset, int zoom)
 				
 				pDC->SelectObject(&elipsePen);
 				pDC->Ellipse(
-					round(vertex[i-1].X * zoom + offset.x + zoom/4),
-					round(vertex[i-1].Y * -zoom + offset.y + zoom/4), 
-					round(vertex[i-1].X * zoom + offset.x - zoom/4), 
-					round(vertex[i-1].Y * -zoom + offset.y - zoom/4));
+					round(vertex[i-1].X * zoom + offset.x + zoom/8),
+					round(vertex[i-1].Y * -zoom + offset.y + zoom/8), 
+					round(vertex[i-1].X * zoom + offset.x - zoom/8), 
+					round(vertex[i-1].Y * -zoom + offset.y - zoom/8));
 			
 			}
 
 			pDC->SelectObject(&elipsePen);
 			
 			pDC->Ellipse(
-				round(vertex[count - 1].X * zoom + offset.x + zoom / 4),
-				round(vertex[count - 1].Y * -zoom + offset.y + zoom / 4),
-				round(vertex[count - 1].X * zoom + offset.x - zoom / 4),
-				round(vertex[count - 1].Y * -zoom + offset.y - zoom / 4));
+				round(vertex[count - 1].X * zoom + offset.x + zoom / 8),
+				round(vertex[count - 1].Y * -zoom + offset.y + zoom / 8),
+				round(vertex[count - 1].X * zoom + offset.x - zoom / 8),
+				round(vertex[count - 1].Y * -zoom + offset.y - zoom / 8));
 		}
 	}
 }

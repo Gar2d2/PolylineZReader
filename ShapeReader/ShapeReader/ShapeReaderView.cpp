@@ -11,7 +11,7 @@
 #endif
 
 #include "shapefil.h"
-
+#include "MemDC.h"
 #include "ShapeDrawer.h"
 #include "ShapeReaderDoc.h"
 #include "ShapeReaderView.h"
@@ -61,12 +61,11 @@ void CShapeReaderView::OnDraw(CDC* pDC)
 	ASSERT_VALID(pDoc);
 	if (!pDoc)
 		return;
-	
-	
+	MemDC dc(pDC);
 	
 	if (pDoc->shapeDrawer)
 	{
-		pDoc->shapeDrawer->DrawShape(pDC, viewOffset, zoomLevel);
+		pDoc->shapeDrawer->DrawShape(&dc, viewOffset, zoomLevel);
 	}
 
 }
@@ -162,7 +161,7 @@ BOOL CShapeReaderView::OnEraseBkgnd(CDC* pDC)
 {
 	// TODO: Add your message handler code here and/or call default
 
-	CView::OnEraseBkgnd(pDC);
+	
 
-	return TRUE;
+	return FALSE;
 }

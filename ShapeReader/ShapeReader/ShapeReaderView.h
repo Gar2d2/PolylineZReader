@@ -46,7 +46,7 @@ public:
 // variables
 private:
 	bool isPanning = false;
-	int zoomLevel = 1;
+	int zoomLevel = 10;
 	int zoomMultiplier = 1;
 	CPoint viewOffset = (0, 0);
 	CPoint initialCursorLocation;
