@@ -69,15 +69,19 @@ void CShapeReaderDoc::Serialize(CArchive& ar)
 	else
 	{
 		userWin = AfxGetMainWnd();
+
 		TRACE(ar.GetFile()->GetFilePath());
 		CStringA s(ar.GetFile()->GetFilePath());
 		const char* filepath = s;
+
 		SHPHandle handle = SHPOpen(filepath, "");
+
 		if (!handle)
 		{
 			OnErrorReadingFile();
 			return;
 		}
+
 		switch (handle->nShapeType)
 		{
 		case 3: //polylineZ and polyline 

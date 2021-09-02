@@ -33,9 +33,9 @@ public:
 #ifdef _DEBUG
 	virtual void AssertValid() const;
 	virtual void Dump(CDumpContext& dc) const;
+#endif
 	void OnErrorReadingFile();
 	void OnErrorShapeType();
-#endif
 
 protected:
 
