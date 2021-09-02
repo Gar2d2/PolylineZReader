@@ -39,6 +39,7 @@ protected:
 	DECLARE_MESSAGE_MAP()
 public:
 	afx_msg void OnLButtonDown(UINT nFlags, CPoint point);
+	void StartTrackingMouse();
 	afx_msg void OnMouseMove(UINT nFlags, CPoint point);
 	afx_msg BOOL OnMouseWheel(UINT nFlags, short zDelta, CPoint pt);
 	
@@ -62,8 +63,9 @@ public:
 	afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
 	afx_msg void OnResetButtonClicked();
 	virtual void CreateButtons();
-	void RepositionButton();
+	void RepositionResetViewButton();
 	CButton resetView;
+	afx_msg void OnMouseLeave();
 };
 
 #ifndef _DEBUG  // debug version in ShapeReaderView.cpp

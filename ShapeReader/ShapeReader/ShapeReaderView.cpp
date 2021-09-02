@@ -33,6 +33,7 @@ BEGIN_MESSAGE_MAP(CShapeReaderView, CView)
 	ON_WM_ERASEBKGND()
 	ON_WM_CREATE()
 	ON_BN_CLICKED(ID_BUTTON_RESET, &CShapeReaderView::OnResetButtonClicked)
+	ON_WM_MOUSELEAVE()
 END_MESSAGE_MAP()
 
 // CShapeReaderView construction/destruction
@@ -74,7 +75,7 @@ void CShapeReaderView::OnDraw(CDC* pDC)
 	ASSERT_VALID(pDoc);
 	if (!pDoc)
 		return;
-	RepositionButton();
+	RepositionResetViewButton();
 	MemDC dc(pDC);
 	
 	if (pDoc->shapeDrawer)
@@ -111,13 +112,25 @@ CShapeReaderDoc* CShapeReaderView::GetDocument() const // non-debug version is i
 
 // CShapeReaderView message handlers
 
+void CShapeReaderView::StartTrackingMouse()
+{
+	TRACKMOUSEEVENT tme;
+	tme.cbSize = sizeof(tme);
+	tme.hwndTrack = m_hWnd;
+	tme.dwFlags = TME_LEAVE;
+	tme.dwHoverTime = 1;
+	_TrackMouseEvent(&tme);
+}
 
 void CShapeReaderView::OnLButtonDown(UINT nFlags, CPoint point)
 {
 	// TODO: Add your message handler code here and/or call default
 	SetPanning(point, true);
+	StartTrackingMouse(); // for OnMouseLeave event 
+
 	CView::OnLButtonDown(nFlags, point);
 }
+
 
 void CShapeReaderView::OnLButtonUp(UINT nFlags, CPoint point)
 {
@@ -133,6 +146,12 @@ void CShapeReaderView::OnMouseMove(UINT nFlags, CPoint point)
 	CView::OnMouseMove(nFlags, point);
 }
 
+void CShapeReaderView::OnMouseLeave()
+{
+	SetPanning((0,0), false);
+
+	CView::OnMouseLeave();
+}
 
 BOOL CShapeReaderView::OnMouseWheel(UINT nFlags, short zDelta, CPoint pt)
 {
@@ -143,6 +162,7 @@ BOOL CShapeReaderView::OnMouseWheel(UINT nFlags, short zDelta, CPoint pt)
 
 void CShapeReaderView::OnPanning(CPoint point)
 {
+
 	if (isPanning)
 	{
 		viewOffset += point - initialCursorLocation;
@@ -164,7 +184,7 @@ void CShapeReaderView::SetPanning(CPoint point, bool newPanning)
 
 void CShapeReaderView::ChangeZoom(short newZoom)
 {
-	newZoom < 0 && zoomLevel > 0 ? zoomLevel -= zoomMultiplier : zoomLevel += zoomMultiplier;
+	newZoom < 0 && zoomLevel > 1 ? zoomLevel -= zoomMultiplier : zoomLevel += zoomMultiplier;
 	Invalidate();
 	UpdateWindow();
 }
@@ -174,22 +194,15 @@ void CShapeReaderView::ChangeZoom(short newZoom)
 
 BOOL CShapeReaderView::OnEraseBkgnd(CDC* pDC)
 {
-	// TODO: Add your message handler code here and/or call default
-
-	
-
 	return FALSE;
 }
 
 void CShapeReaderView::CreateButtons()
 {
-	resetView.Create(_T("Reset View"), BS_PUSHBUTTON | WS_VISIBLE, CRect(300, 100, 400, 150), this, ID_BUTTON_RESET);
-	//resetView.ShowWindow(SW_SHOW);
-		
-	
+	resetView.Create(_T("Reset View"), BS_PUSHBUTTON | WS_VISIBLE, CRect(300, 100, 400, 150), this, ID_BUTTON_RESET);	
 }
 
-void CShapeReaderView::RepositionButton()
+void CShapeReaderView::RepositionResetViewButton()
 {
 	CWnd* t = this;
 	CRect clientRect;
@@ -207,3 +220,5 @@ void CShapeReaderView::OnResetButtonClicked()
 	Invalidate();
 	UpdateWindow();
 }
+
+
